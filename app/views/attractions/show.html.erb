@@ -1,0 +1,27 @@
+
+
+<h1><%= @attraction.title %> </h1>
+<%= image_tag @attraction.avatar.url(:medium) %>
+
+<div id="map">
+	<%= map(:center => {
+    :latlng => [@attraction.latitude, @attraction.longitude],
+    :zoom => 18
+  },
+  :markers => [
+    {
+       :latlng => [@attraction.latitude, @attraction.longitude],
+    }
+  ]
+) %>
+</div>
+
+<p> <b>Price: </b> $ <%= @attraction.price %> </p>
+<p> <b>Address: </b> <%= @attraction.address %> </p>
+<p> <b>Website: </b> <%= @attraction.link %> </p>
+<p> <b>Tags: </b> <%= @attraction.tags %> </p>
+<h2> About </h2> <p> <%= @attraction.content %> </p>
+
+<%= link_to "Back", attractions_path %>
+<%= link_to "Edit", edit_attraction_path %>
+<%= link_to "Destroy", attraction_path(@attraction), method: :delete, data: {confirm: "Are you sure?"} %>

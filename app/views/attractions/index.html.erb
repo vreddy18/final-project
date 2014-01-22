@@ -1,0 +1,36 @@
+<h1> Welcome to XXX </h1>
+<h4> your portal to the unexplored </h4>
+
+<%= search_form_for @q do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+  <%= f.label :tags %>
+  <%= f.text_field :tags %>
+  <%= f.submit %>
+<% end %>
+
+<form class="navbar-form navbar-left" role="search">
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Enter any special interests or must-sees">
+  </div>
+  <button type="submit" class="btn btn-default">TAKE ME THERE</button>
+</form>
+<br/>
+<br/>
+<br/>
+<%= link_to "Add a new attraction", new_attraction_path %>
+<br/>
+<br/>
+<table>
+	<tr>
+		<th>Title</th>
+		<th>Tagline</th>
+<% @attractions.each do |attraction| %>
+<tr>
+<td><%= link_to attraction.title, attraction_path(attraction) %></td>
+<td><%= attraction.tagline %></td>
+<td><%= link_to "Edit", edit_attraction_path(attraction) %></td>
+<td> <%= link_to "Destroy", attraction_path(attraction), method: :delete, data: {confirm: "Are you sure?"} %></td>
+</tr>
+<% end %>
+</table>
