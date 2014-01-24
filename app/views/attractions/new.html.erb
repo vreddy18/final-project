@@ -35,10 +35,6 @@
     <%= f.label :tagline %><br>
     <%= f.text_field :tagline %>
   </div>
-   <div class="area">
-    <%= f.label :tags %><br>
-    <%= f.text_area :tags %>
-  </div>
   <div class="field">
     <%= f.label :link %><br>
     <%= f.text_field :link %>
@@ -51,6 +47,11 @@
     <%= f.label :longitude %><br>
     <%= f.number_field :longitude %>
   </div>
+<div class="field">
+  <%= f.label :tag_list, "Tags (separated by commas)" %><br />
+  <%= f.text_field :tag_list %>
+</div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

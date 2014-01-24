@@ -4,9 +4,3 @@ L.tileLayer("http://{s}.tile.cloudmade.com/04adbf8bbff34eb69d1658aef8974b03/997/
             contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, 
             Imagery © <a href=\"http://cloudmade.com\">CloudMade</a>"
             maxZoom: 18).addTo map
-
-$('input.typeahead').typeahead([
-  {
-    prefetch: 'https://www.mipage.com/suggestion.json'
-   }
-]);

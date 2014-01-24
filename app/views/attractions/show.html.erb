@@ -19,9 +19,13 @@
 <p> <b>Price: </b> $ <%= @attraction.price %> </p>
 <p> <b>Address: </b> <%= @attraction.address %> </p>
 <p> <b>Website: </b> <%= @attraction.link %> </p>
-<p> <b>Tags: </b> <%= @attraction.tags %> </p>
+<p> <b>Tags: </b> <%= raw @attraction.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %> </p>
 <h2> About </h2> <p> <%= @attraction.content %> </p>
 
-<%= link_to "Back", attractions_path %>
-<%= link_to "Edit", edit_attraction_path %>
+ <%= link_to "Add to Trip",   favorite_attraction_path(@attraction, type: "favorite"), method: :put %> |
+ <%= link_to "Remove from Trip", favorite_attraction_path(@attraction, type: "unfavorite"), method: :put %>
+<br/>
+<br/>
+<%= link_to "Back", attractions_path %> |
+<%= link_to "Edit", edit_attraction_path %> |
 <%= link_to "Destroy", attraction_path(@attraction), method: :delete, data: {confirm: "Are you sure?"} %>

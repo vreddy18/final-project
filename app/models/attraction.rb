@@ -1,6 +1,10 @@
 class Attraction < ActiveRecord::Base
-	acts_as_indexed :fields => [:title, :tags]
+	searchable do
+		text :title
+		text :tag_list
+	end
 	has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
-	has_many :favorites
-	has_many :users, through: :favorites
+	acts_as_taggable	
+	has_many :favorite_attractions 
+	has_many :favorited_by, through: :favorite_attractions, source: :user
 end

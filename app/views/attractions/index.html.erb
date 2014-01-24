@@ -1,36 +1,34 @@
 <h1> Welcome to XXX </h1>
 <h4> your portal to the unexplored </h4>
 
-<%= search_form_for @q do |f| %>
-  <%= f.label :title %>
-  <%= f.text_field :title %>
-  <%= f.label :tags %>
-  <%= f.text_field :tags %>
-  <%= f.submit %>
+<form>
+  <%=text_field_tag "q", params[:q], placeholder: "Special interests or must-sees?" %>
+  <input type="submit" value ="Search">
+</form>
+
+<% if @search %>
+  <h5> <%= @search.total %> results </h5>
 <% end %>
 
-<form class="navbar-form navbar-left" role="search">
-  <div class="form-group">
-    <input type="text" class="form-control" placeholder="Enter any special interests or must-sees">
-  </div>
-  <button type="submit" class="btn btn-default">TAKE ME THERE</button>
-</form>
-<br/>
-<br/>
-<br/>
 <%= link_to "Add a new attraction", new_attraction_path %>
 <br/>
 <br/>
 <table>
+  <table border="1" 
+cellpadding="10">
 	<tr>
 		<th>Title</th>
 		<th>Tagline</th>
+    <th>Tags</th>
 <% @attractions.each do |attraction| %>
 <tr>
 <td><%= link_to attraction.title, attraction_path(attraction) %></td>
 <td><%= attraction.tagline %></td>
+<td><%= raw attraction.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %></td>
 <td><%= link_to "Edit", edit_attraction_path(attraction) %></td>
 <td> <%= link_to "Destroy", attraction_path(attraction), method: :delete, data: {confirm: "Are you sure?"} %></td>
 </tr>
 <% end %>
 </table>
+
+

@@ -1,13 +1,16 @@
 class AttractionsController < ApplicationController
 	def index
-		@attractions = Attraction.all
-		@q = Attraction.search(params[:q])
-  		@attractions = @q.result(distinct: true)
-	end
-
-	def load_suggestions
- 	 	@suggestions = Attraction.find(:all, conditions: [:title, :tags]) #Select the data you want to load on the typeahead.
-  		render json: @suggestions
+		if params[:tag]
+    		@attractions = Attraction.tagged_with(params[:tag])
+    	elsif params[:q]
+    		query = params[:q]
+    		@search = Attraction.search do 
+    			keywords query
+    		end
+    		@attractions = @search.results
+		else
+			@attractions = Attraction.all
+		end
 	end
 
 	def new
@@ -41,7 +44,19 @@ class AttractionsController < ApplicationController
 		@attraction.update_attributes(attraction_params)
 		redirect_to @attraction
 	end
-		
+	
+	def favorite
+		type = params[:type]
+		if type == "favorite"
+			current_user.favorites << @attraction
+			redirect_to :back, notice: 'You have added #{@attraction.title} to your trip'
+		elsif type == "unfavorite"
+			current_user.favorites.delete(@attraction)
+			redirect_to :back, notice: 'You have removed #{@attraction.title} from your trip'
+		else 
+			redirect_to :back, notice: 'Nothing happened.'
+		end
+	end
 
 	def destroy
 		@attraction = Attraction.find(params[:id])
@@ -51,6 +66,6 @@ class AttractionsController < ApplicationController
 
 	private
 	def attraction_params
-		params.require(:attraction).permit(:title, :content, :price, :tagline, :tags, :address, :link, :avatar, :latitude, :longitude)
+		params.require(:attraction).permit(:title, :content, :price, :tagline, :tag_list, :address, :link, :avatar, :latitude, :longitude)
 	end
 end

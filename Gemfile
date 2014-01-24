@@ -3,8 +3,8 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
 
-# Use postgres as the database for Active Record
-gem 'pg'
+# Use sqlite3 as the database for Active Record
+gem 'sqlite3'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -29,24 +29,26 @@ gem 'jbuilder', '~> 1.2'
 
 #add fulltext search functionality
 
-gem 'acts_as_indexed'
+gem 'acts-as-taggable-on'
 
 gem "paperclip", "~> 3.0"
 
-gem 'leaflet-rails'
+gem 'leaflet-rails', '>=0.6.4'
 
-gem "ransack"
+gem 'sunspot_rails'
+
+gem 'sunspot_solr'
 
 gem 'devise'
 
-gem 'rails_12factor', group: :production
+gem 'foundation-rails'
+
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
 
-ruby "2.0.0"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
