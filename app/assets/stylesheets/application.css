@@ -11,6 +11,6 @@
  *= require leaflet
  *= require_self
  *= require foundation_and_overrides
-
+*= require 'foundicons'
  *= require_tree .
  */

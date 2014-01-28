@@ -47,12 +47,13 @@ class AttractionsController < ApplicationController
 	
 	def favorite
 		type = params[:type]
-		if type == "favorite"
-			current_user.favorites << @attraction
-			redirect_to :back, notice: 'You have added #{@attraction.title} to your trip'
-		elsif type == "unfavorite"
-			current_user.favorites.delete(@attraction)
-			redirect_to :back, notice: 'You have removed #{@attraction.title} from your trip'
+		@attraction = Attraction.find(params[:id])
+		if type == "add"
+			current_user.attractions << @attraction
+			redirect_to :back, notice: "You have added #{@attraction.title} to your trip"
+		elsif type == "remove"
+			current_user.attractions.delete(@attraction)
+			redirect_to :back, notice: "You have removed #{@attraction.title} from your trip"
 		else 
 			redirect_to :back, notice: 'Nothing happened.'
 		end
@@ -63,6 +64,7 @@ class AttractionsController < ApplicationController
 		@attraction.destroy
 		redirect_to attractions_path(@attraction)
 	end
+
 
 	private
 	def attraction_params

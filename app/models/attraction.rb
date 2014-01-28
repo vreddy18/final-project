@@ -5,6 +5,5 @@ class Attraction < ActiveRecord::Base
 	end
 	has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
 	acts_as_taggable	
-	has_many :favorite_attractions 
-	has_many :favorited_by, through: :favorite_attractions, source: :user
+	has_and_belongs_to_many :users
 end

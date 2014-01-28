@@ -1,14 +1,125 @@
-<h1> Welcome to XXX </h1>
-<h4> your portal to the unexplored </h4>
+<body>
+  <h1> Welcome to XXX </h1>
+  <h4> your portal to the unexplored </h4>
 
-<form>
-  <%=text_field_tag "q", params[:q], placeholder: "Special interests or must-sees?" %>
-  <input type="submit" value ="Search">
-</form>
+  <div class="row">
+    <div class="large-12 columns">
+ 
+      <!-- Navigation -->
+ 
+        <ul class="button-group">
+          <li><a href="#" class="button">Nav Item 1</a></li>
+          <li><a href="#" class="button">Nav Item 2</a></li>
+          <li><a href="#" class="button">Nav Item 3</a></li>
+        </ul>
+ 
+      <!-- End Navigation -->
 
-<% if @search %>
+    <div class="column">
+ <!-- Nav Sidebar -->
+    <!-- This is source ordered to be pulled to the left on larger screens -->
+      <div class="large-3 columns ">
+      <h5>MY TRIP TO PROVIDENCE</h5>
+        <div class="panel">
+          <% current_user.attractions.each do |attraction| %>
+            <h6><%= link_to attraction.title, attraction_path(attraction) %></h6>
+            <%= link_to image_tag(attraction.avatar.url), attraction_path(attraction) %>
+            <%= link_to favorite_attraction_path(attraction, type: "remove"), method: :put do%>
+                <i class="fi-minus"></i>
+             <% end %>
+          <% end %>
+         </div>
+    
+      </div>
+ 
+ 
+      <!-- Search Bar -->
+ 
+        <div class="row">
+ 
+          <div class="large-12 columns">
+            <div class="radius panel">
+ 
+            <form>
+              <div class="row collapse">
+ 
+                <div class="large-10 small-8 columns">
+                  <%=text_field_tag "q", params[:q], placeholder: "Special interests or must-sees?" %>
+                </div>
+                <div class="large-2 small-3 columns">
+                  <input type="submit" value="TAKE ME THERE" class="postfix button expand">
+                </div>
+ 
+              </div>
+            </form>
+ 
+          </div>
+          </div>
+ 
+        </div>
+        <% if @search %>
   <h5> <%= @search.total %> results </h5>
 <% end %>
+ 
+      <!-- End Search Bar -->
+ 
+ 
+      <!-- Thumbnails -->
+ 
+        <div class="row">
+ 
+          <div class="large-12 show-for-small columns">
+          <h3>Header</h3><hr>
+        </div>
+
+        <% @attractions.each do |attraction| %>
+          <div class="large-3 small-6 columns">
+            <div class="panel">
+               <h6><%= attraction.tagline %></h6>
+                 <%= link_to image_tag(attraction.avatar.url), attraction_path(attraction) %>
+             <h6><%= attraction.title %></h6>
+             <%= link_to favorite_attraction_path(attraction, type: "add"), method: :put do %>
+                <i class="fi-plus"></i>
+             <% end %>
+            </div>
+          </div>
+        <% end %>
+ 
+        </div>
+
+
+ 
+      <!-- End Thumbnails -->
+ 
+ 
+      <!-- Footer -->
+ 
+        <footer class="row">
+        <div class="large-12 columns"><hr />
+            <div class="row">
+ 
+              <div class="large-6 columns">
+                  <p>© Copyright no one at all. Go to town.</p>
+              </div>
+ 
+              <div class="large-6 columns">
+                  <ul class="inline-list right">
+                    <li><a href="#">Link 1</a></li>
+                    <li><a href="#">Link 2</a></li>
+                    <li><a href="#">Link 3</a></li>
+                    <li><a href="#">Link 4</a></li>
+                  </ul>
+              </div>
+ 
+            </div>
+        </div>
+      </footer>
+ 
+      <!-- End Footer -->
+ 
+ 
+    </div>
+  </div>
 
 <%= link_to "Add a new attraction", new_attraction_path %>
 <br/>
@@ -25,6 +136,7 @@ cellpadding="10">
 <td><%= link_to attraction.title, attraction_path(attraction) %></td>
 <td><%= attraction.tagline %></td>
 <td><%= raw attraction.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %></td>
+<td><%= link_to "Add to Trip", favorite_attraction_path(attraction, type: "add"), method: :put %></td>
 <td><%= link_to "Edit", edit_attraction_path(attraction) %></td>
 <td> <%= link_to "Destroy", attraction_path(attraction), method: :delete, data: {confirm: "Are you sure?"} %></td>
 </tr>
@@ -32,3 +144,35 @@ cellpadding="10">
 </table>
 
 
+  <h3> My Trip to Providence </h3>
+<table>
+  <table border="1" 
+cellpadding="10">
+  <tr>
+    <th>Title</th>
+    <th>Tagline</th>
+    <th>Tags</th>
+<% current_user.attractions.each do |attraction| %>
+<tr>
+<td><%= link_to attraction.title, attraction_path(attraction) %></td>
+<td><%= attraction.tagline %></td>
+<td><%= raw attraction.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %></td>
+<td><%= link_to "Remove from Trip", favorite_attraction_path(attraction, type: "remove"), method: :put %></td>
+</tr>
+<% end %>
+</table>
+<% current_user.attractions.each do |attraction| %>
+<div id="map">
+  <%= map(:center => {
+    :latlng => [41.823550, -71.422132],
+    :zoom => 14
+  },
+  :markers => [
+    {
+       :latlng => [attraction.latitude, attraction.longitude]
+    }
+  ]
+) %>
+</div>
+<% end %>
+</body>

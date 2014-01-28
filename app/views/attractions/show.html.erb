@@ -11,6 +11,7 @@
   :markers => [
     {
        :latlng => [@attraction.latitude, @attraction.longitude],
+       :popup => @attraction.title
     }
   ]
 ) %>
@@ -22,8 +23,8 @@
 <p> <b>Tags: </b> <%= raw @attraction.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %> </p>
 <h2> About </h2> <p> <%= @attraction.content %> </p>
 
- <%= link_to "Add to Trip",   favorite_attraction_path(@attraction, type: "favorite"), method: :put %> |
- <%= link_to "Remove from Trip", favorite_attraction_path(@attraction, type: "unfavorite"), method: :put %>
+ <%= link_to "Add to Trip",   favorite_attraction_path(@attraction, type: "add"), method: :put %> |
+ <%= link_to "Remove from Trip", favorite_attraction_path(@attraction, type: "remove"), method: :put %>
 <br/>
 <br/>
 <%= link_to "Back", attractions_path %> |
